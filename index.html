@@ -5,6 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>North Lusitanos — Selas em Segunda Mão</title>
   <meta name="description" content="Selas de dressage e salto em segunda mão, selecionadas com rigor. North Lusitanos — Portugal." />
+  <meta name="keywords" content="selas segunda mão, selas dressage, selas salto, selas usadas Portugal, equitação, horse saddles Portugal" />
+  <meta name="author" content="North Lusitanos" />
+  <meta name="theme-color" content="#182A47" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://northlusitanos.vercel.app" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_PT" />
+  <meta property="og:site_name" content="North Lusitanos" />
+  <meta property="og:url" content="https://northlusitanos.vercel.app" />
+  <meta property="og:title" content="North Lusitanos — Selas em Segunda Mão" />
+  <meta property="og:description" content="Selas de dressage e salto em segunda mão, selecionadas com rigor. North Lusitanos — Portugal." />
+  <meta property="og:image" content="https://northlusitanos.vercel.app/icon.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="North Lusitanos — Selas em Segunda Mão" />
+  <meta name="twitter:description" content="Selas de dressage e salto em segunda mão, selecionadas com rigor. North Lusitanos — Portugal." />
+  <meta name="twitter:image" content="https://northlusitanos.vercel.app/icon.png" />
+
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -48,20 +74,36 @@
 
     /* Mobile nav */
     #nav-toggle { display: none; }
+    #nav-toggle span { transition: transform 0.22s ease, opacity 0.22s ease; }
+    #nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
     @media (max-width: 640px) {
       #nav-toggle { display: flex; }
       #nav-links {
         position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
-        background: #FDFFF1; border-bottom: 1px solid rgba(24,42,71,.12);
+        background: #FDFFF1;
+        border-bottom: 1px solid rgba(24,42,71,.1);
+        box-shadow: 0 12px 40px rgba(24,42,71,.1);
         flex-direction: column; gap: 0; display: none;
+        padding: 0.5rem 0 1.25rem;
       }
       #nav-links.open { display: flex; }
-      #nav-links li { border-bottom: 1px solid rgba(24,42,71,.12); }
-      #nav-links a { display: block; padding: 1rem 2rem; }
-      .nav-cta-mobile {
-        background: #182A47 !important; color: #FDFFF1 !important;
-        border: none !important; border-radius: 0 !important;
+      #nav-links li { border-bottom: none; }
+      #nav-links li.nav-sep { width: 20% !important; height: 2px !important; min-height: 2px !important; background: rgba(24,42,71,.15) !important; opacity: 1 !important; margin: 0 auto !important; padding: 0 !important; }
+      #nav-links a {
+        display: block; padding: 0.85rem 2rem;
+        opacity: 1 !important; color: #182A47;
       }
+      #nav-links a:hover { opacity: 0.5 !important; }
+      .nav-cta-mobile {
+        margin: 0.4rem 2rem 0 !important;
+        background: #182A47 !important; color: #FDFFF1 !important;
+        border: none !important; border-radius: 2px !important;
+        text-align: center !important; padding: 0.75rem 1.5rem !important;
+        display: block !important;
+      }
+      .nav-cta-mobile:hover { opacity: 0.75 !important; }
     }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
@@ -100,31 +142,50 @@
 <body class="bg-white text-navy font-serif leading-relaxed">
 
   <!-- NAV -->
-  <header class="sticky top-0 z-[100] bg-cream border-b border-navy/[.12]">
+  <header class="sticky top-0 z-[100] bg-navy border-b border-cream/[.08]">
     <nav class="flex items-center justify-between px-8 h-16">
       <a href="#" class="flex-shrink-0">
-        <img src="logo.png" alt="North Lusitanos" class="h-10 w-10 object-contain" />
+        <span class="text-cream text-[0.85rem] font-bold tracking-[0.12em] uppercase">North Lusitanos</span>
       </a>
       <button id="nav-toggle" aria-label="Abrir menu" class="flex-col gap-[5px] bg-transparent border-0 cursor-pointer p-1">
-        <span class="block w-[22px] h-[2px] bg-navy rounded-sm"></span>
-        <span class="block w-[22px] h-[2px] bg-navy rounded-sm"></span>
-        <span class="block w-[22px] h-[2px] bg-navy rounded-sm"></span>
+        <span class="block w-[22px] h-[2px] bg-cream rounded-sm"></span>
+        <span class="block w-[22px] h-[2px] bg-cream rounded-sm"></span>
+        <span class="block w-[22px] h-[2px] bg-cream rounded-sm"></span>
       </button>
-      <ul id="nav-links" class="flex items-center gap-10 list-none">
-        <li><a href="#selas" class="text-[0.72rem] font-bold tracking-[0.15em] uppercase opacity-50 hover:opacity-100 transition-opacity duration-200">Selas</a></li>
-        <li><a href="#como-comprar" class="text-[0.72rem] font-bold tracking-[0.15em] uppercase opacity-50 hover:opacity-100 transition-opacity duration-200">Como Comprar</a></li>
-        <li><a href="#contacto" class="nav-cta-mobile text-[0.72rem] font-bold tracking-[0.15em] uppercase border border-navy/50 px-[1.1rem] py-[0.45rem] rounded-sm hover:bg-navy hover:text-cream transition-[background,color] duration-200">Contacto</a></li>
+      <ul id="nav-links" class="flex items-center gap-0 list-none">
+        <li><a href="#selas" class="text-[0.72rem] font-bold tracking-[0.15em] uppercase text-cream opacity-50 hover:opacity-100 transition-opacity duration-200 px-5">Selas</a></li>
+        <li class="nav-sep w-px h-3 bg-cream opacity-20"></li>
+        <li><a href="#como-comprar" class="text-[0.72rem] font-bold tracking-[0.15em] uppercase text-cream opacity-50 hover:opacity-100 transition-opacity duration-200 px-5">Como Comprar</a></li>
+        <li class="nav-sep w-px h-3 bg-cream opacity-20"></li>
+        <li><a href="#contactos" class="text-[0.72rem] font-bold tracking-[0.15em] uppercase text-cream opacity-50 hover:opacity-100 transition-opacity duration-200 px-5">Contactos</a></li>
       </ul>
     </nav>
   </header>
 
   <!-- HERO -->
-  <section class="bg-navy py-28 px-8 text-center text-cream">
-    <p class="text-[0.7rem] font-bold tracking-[0.3em] uppercase opacity-40 mb-7">Selas em Segunda Mão · Portugal</p>
-    <h1 class="text-[clamp(2.75rem,7vw,5.5rem)] font-bold tracking-[0.03em] leading-[1.05] mb-8">Dressage &amp;<br>Jumping Saddles</h1>
-    <div class="w-12 h-px bg-cream opacity-20 mx-auto mb-8"></div>
-    <p class="text-[clamp(0.9rem,2vw,1.05rem)] opacity-50 max-w-[380px] mx-auto mb-10 leading-[1.75]">Selas de qualidade, selecionadas com rigor — a preços acessíveis.</p>
-    <a href="#selas" class="inline-block bg-cream text-navy text-[0.72rem] font-bold tracking-[0.2em] uppercase px-9 py-[0.9rem] rounded-sm hover:opacity-85 transition-opacity duration-200">Ver Selas Disponíveis</a>
+  <section class="bg-cream min-h-[calc(100vh-4rem)] px-8 text-navy flex flex-col items-center justify-center">
+
+    <!-- Mobile -->
+    <div class="sm:hidden text-center w-full py-20">
+      <p class="text-[0.7rem] font-bold tracking-[0.3em] uppercase opacity-40 mb-7">Selas em Segunda Mão · Portugal</p>
+      <img src="logo.png" alt="North Lusitanos" class="h-64 w-64 object-contain opacity-80 mx-auto mb-8" />
+      <div class="w-12 h-px bg-navy opacity-20 mx-auto mb-8"></div>
+      <p class="text-[clamp(0.9rem,2vw,1.05rem)] opacity-50 max-w-[380px] mx-auto mb-10 leading-[1.75]">Selas de qualidade, selecionadas com rigor a preços acessíveis.</p>
+      <a href="#selas" class="inline-block bg-navy text-cream text-[0.72rem] font-bold tracking-[0.2em] uppercase px-9 py-[0.9rem] rounded-sm hover:opacity-85 transition-opacity duration-200">Ver Selas Disponíveis</a>
+    </div>
+
+    <!-- Desktop -->
+    <div class="hidden sm:flex items-center justify-between w-full max-w-[1100px] mx-auto gap-16">
+      <div class="flex flex-col items-start text-left gap-7 flex-1">
+        <p class="text-[0.7rem] font-bold tracking-[0.3em] uppercase opacity-40">Selas em Segunda Mão · Portugal</p>
+        <h1 class="text-[clamp(2.4rem,4.5vw,4rem)] font-bold tracking-[0.03em] leading-[1.1]">Dressage &amp;<br>Jumping Saddles</h1>
+        <div class="w-12 h-px bg-navy opacity-20"></div>
+        <p class="text-[clamp(0.9rem,1.4vw,1rem)] opacity-50 max-w-[360px] leading-[1.75]">Selas de qualidade, selecionadas com rigor a preços acessíveis.</p>
+        <a href="#selas" class="inline-block bg-navy text-cream text-[0.72rem] font-bold tracking-[0.2em] uppercase px-9 py-[0.9rem] rounded-sm hover:opacity-85 transition-opacity duration-200">Ver Selas Disponíveis</a>
+      </div>
+      <img src="logo.png" alt="North Lusitanos" class="h-[380px] w-[380px] object-contain opacity-80 flex-shrink-0" />
+    </div>
+
   </section>
 
   <!-- SELAS -->
@@ -132,7 +193,7 @@
     <div class="max-w-[1100px] mx-auto px-8 py-[5.5rem]">
       <span class="block text-[0.65rem] font-bold tracking-[0.3em] uppercase opacity-[.35] mb-2">Disponíveis agora</span>
       <h2 class="text-[clamp(1.6rem,3.5vw,2.5rem)] font-bold tracking-[0.02em] mb-[0.6rem]">Selas</h2>
-      <p class="text-[0.88rem] opacity-50 max-w-[520px] leading-[1.7] mb-12">Todas as selas são inspeccionadas antes de serem listadas. As fotos são do próprio artigo.</p>
+      <p class="text-[0.88rem] opacity-50 max-w-[520px] leading-[1.7] mb-12">Todas as selas são inspecionadas antes de serem listadas. As fotos são do próprio artigo.</p>
 
       <div class="flex items-center justify-between mb-10">
 
@@ -344,17 +405,18 @@
     </div>
   </div>
 
-  <!-- CONTACTO -->
-  <div id="contacto">
+  <!-- CONTACTOS -->
+  <div id="contactos">
     <div class="max-w-[1100px] mx-auto px-8 py-[5.5rem]">
       <span class="block text-[0.65rem] font-bold tracking-[0.3em] uppercase opacity-[.35] mb-2">Fala connosco</span>
-      <h2 class="text-[clamp(1.6rem,3.5vw,2.5rem)] font-bold tracking-[0.02em] mb-[0.6rem]">Contacto</h2>
+      <h2 class="text-[clamp(1.6rem,3.5vw,2.5rem)] font-bold tracking-[0.02em] mb-[0.6rem]">Contactos</h2>
       <p class="text-[0.88rem] opacity-50 max-w-[520px] leading-[1.7] mb-12">Disponíveis para responder a dúvidas, enviar fotos adicionais ou combinar uma visita. Também compramos selas.</p>
       <div class="grid grid-cols-3 gap-6 max-[680px]:grid-cols-1">
 
-        <a href="https://www.instagram.com/northlusitanosstore" target="_blank" rel="noopener noreferrer" class="border border-navy/[.12] rounded-sm p-8 flex flex-col gap-[0.65rem] hover:border-navy hover:shadow-[0_4px_20px_rgba(24,42,71,.07)] transition-[border-color,box-shadow] duration-200">
-          <div class="w-[42px] h-[42px] rounded-full bg-navy/[.07] flex items-center justify-center mb-1">
-            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/northlusitanosstore" target="_blank" rel="noopener noreferrer" class="group border border-navy/[.12] rounded-sm p-8 flex flex-col gap-[0.65rem] hover:border-navy/25 hover:shadow-[0_4px_20px_rgba(24,42,71,.07)] transition-all duration-200">
+          <div class="w-[46px] h-[46px] rounded-xl flex items-center justify-center mb-1" style="background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7)">
+            <svg class="w-[20px] h-[20px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
               <circle cx="12" cy="12" r="4"></circle>
               <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"></circle>
@@ -362,12 +424,13 @@
           </div>
           <p class="text-[1rem] font-bold">Instagram</p>
           <p class="text-[0.82rem] opacity-50">@northlusitanosstore</p>
-          <p class="text-[0.78rem] opacity-[.4] leading-[1.6]">Segue-nos para novidades e envia mensagem directa para qualquer questão.</p>
+          <p class="text-[0.78rem] opacity-[.4] leading-[1.6]">Segue-nos para novidades e envia mensagem direta para qualquer questão.</p>
         </a>
 
-        <a href="https://wa.me/351913615196?text=Ol%C3%A1!+Tenho+interesse+numa+sela+do+North+Lusitanos." target="_blank" rel="noopener noreferrer" class="border border-navy/[.12] rounded-sm p-8 flex flex-col gap-[0.65rem] hover:border-navy hover:shadow-[0_4px_20px_rgba(24,42,71,.07)] transition-[border-color,box-shadow] duration-200">
-          <div class="w-[42px] h-[42px] rounded-full bg-navy/[.07] flex items-center justify-center mb-1">
-            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/351913615196?text=Ol%C3%A1!+Tenho+interesse+numa+sela+do+North+Lusitanos." target="_blank" rel="noopener noreferrer" class="group border border-navy/[.12] rounded-sm p-8 flex flex-col gap-[0.65rem] hover:border-navy/25 hover:shadow-[0_4px_20px_rgba(24,42,71,.07)] transition-all duration-200">
+          <div class="w-[46px] h-[46px] rounded-xl bg-[#25D366] flex items-center justify-center mb-1">
+            <svg class="w-[20px] h-[20px] text-white" viewBox="0 0 24 24" fill="currentColor">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
             </svg>
           </div>
@@ -376,16 +439,17 @@
           <p class="text-[0.78rem] opacity-[.4] leading-[1.6]">Envia mensagem e respondemos com fotos, medidas e todas as informações.</p>
         </a>
 
-        <a href="mailto:guilherme.areal10@gmail.com" class="border border-navy/[.12] rounded-sm p-8 flex flex-col gap-[0.65rem] hover:border-navy hover:shadow-[0_4px_20px_rgba(24,42,71,.07)] transition-[border-color,box-shadow] duration-200">
-          <div class="w-[42px] h-[42px] rounded-full bg-navy/[.07] flex items-center justify-center mb-1">
-            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Email -->
+        <a href="mailto:guilherme.areal10@gmail.com" class="group border border-navy/[.12] rounded-sm p-8 flex flex-col gap-[0.65rem] hover:border-navy/25 hover:shadow-[0_4px_20px_rgba(24,42,71,.07)] transition-all duration-200">
+          <div class="w-[46px] h-[46px] rounded-xl bg-[#EA4335] flex items-center justify-center mb-1">
+            <svg class="w-[20px] h-[20px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
               <polyline points="22,6 12,13 2,6"></polyline>
             </svg>
           </div>
           <p class="text-[1rem] font-bold">Email</p>
           <p class="text-[0.82rem] opacity-50">guilherme.areal10@gmail.com</p>
-          <p class="text-[0.78rem] opacity-[.4] leading-[1.6]">Para questões mais detalhadas ou para receber um catálogo actualizado.</p>
+          <p class="text-[0.78rem] opacity-[.4] leading-[1.6]">Para questões mais detalhadas ou para receber um catálogo atualizado.</p>
         </a>
 
       </div>
@@ -393,19 +457,20 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="bg-navy text-cream py-12 px-8">
-    <div class="max-w-[1100px] mx-auto flex items-center justify-between flex-wrap gap-6">
-      <div class="flex items-center gap-3">
-        <img src="logo-navy.png" alt="North Lusitanos" class="h-[38px] w-[38px] object-contain" />
-        <span class="text-[0.85rem] font-bold tracking-[0.08em] opacity-80">North Lusitanos</span>
+  <footer class="bg-navy text-cream px-8 py-6">
+    <div class="max-w-[1100px] mx-auto flex items-center justify-between">
+      <span class="text-[0.68rem] font-bold tracking-[0.1em] opacity-30">© 2026 North Lusitanos</span>
+      <div class="flex items-center gap-5">
+        <a href="https://www.instagram.com/northlusitanosstore" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="opacity-30 hover:opacity-80 transition-opacity duration-200">
+          <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"></circle></svg>
+        </a>
+        <a href="https://wa.me/351913615196" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="opacity-30 hover:opacity-80 transition-opacity duration-200">
+          <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        </a>
+        <a href="mailto:guilherme.areal10@gmail.com" aria-label="Email" class="opacity-30 hover:opacity-80 transition-opacity duration-200">
+          <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </a>
       </div>
-      <ul class="flex gap-8 list-none flex-wrap">
-        <li><a href="#selas" class="text-[0.63rem] font-bold tracking-[0.15em] uppercase opacity-30 hover:opacity-75 transition-opacity duration-200">Selas</a></li>
-        <li><a href="#como-comprar" class="text-[0.63rem] font-bold tracking-[0.15em] uppercase opacity-30 hover:opacity-75 transition-opacity duration-200">Como Comprar</a></li>
-        <li><a href="#contacto" class="text-[0.63rem] font-bold tracking-[0.15em] uppercase opacity-30 hover:opacity-75 transition-opacity duration-200">Contacto</a></li>
-        <li><a href="https://www.instagram.com/northlusitanosstore" target="_blank" rel="noopener noreferrer" class="text-[0.63rem] font-bold tracking-[0.15em] uppercase opacity-30 hover:opacity-75 transition-opacity duration-200">Instagram</a></li>
-      </ul>
-      <span class="text-[0.63rem] opacity-[.22] tracking-[0.08em]">© 2026 North Lusitanos</span>
     </div>
   </footer>
 
@@ -505,11 +570,16 @@
     }
     applyView();
 
-    document.getElementById('nav-toggle').addEventListener('click', () => {
+    const navToggle = document.getElementById('nav-toggle');
+    navToggle.addEventListener('click', () => {
       document.getElementById('nav-links').classList.toggle('open');
+      navToggle.classList.toggle('open');
     });
     document.querySelectorAll('#nav-links a').forEach(a => {
-      a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+      a.addEventListener('click', () => {
+        document.getElementById('nav-links').classList.remove('open');
+        navToggle.classList.remove('open');
+      });
     });
 
     // ── Dropdown toggles ──────────────────────────────────────────────────
