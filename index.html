@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>North Lusitanos — Selas em Segunda Mão</title>
+  <meta name="description" content="Selas de dressage e salto em segunda mão, selecionadas com rigor. North Lusitanos — Portugal." />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { cream: '#FDFFF1', navy: '#182A47' },
+          fontFamily: { serif: ['"Libre Baskerville"', 'Georgia', 'serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Modal overlay */
+    #modal-overlay { display: none; }
+    #modal-overlay.open { display: flex; align-items: center; justify-content: center; }
+
+    /* Filter & sort dropdowns */
+    .dropdown-btn { opacity: 0.65; transition: all 0.15s; }
+    .dropdown-btn:hover, .dropdown-btn.open {
+      background: #182A47; color: #FDFFF1; border-color: #182A47; opacity: 1;
+    }
+    .dropdown-chevron { transition: transform 0.15s ease; }
+    .dropdown-btn.open .dropdown-chevron { transform: rotate(180deg); }
+    #filtros-badge { background: #182A47; color: #FDFFF1; }
+    .dropdown-btn.open #filtros-badge { background: rgba(255,255,255,.22); color: #FDFFF1; }
+    .tipo-check, .estado-check, input[name="sort"] {
+      accent-color: #182A47; width: 13px; height: 13px; cursor: pointer; flex-shrink: 0;
+    }
+
+    /* Sold card overlay */
+    .sold .saddle-photo::after {
+      content: "Vendida";
+      position: absolute; inset: 0;
+      background: rgba(24,42,71,.55); color: #FDFFF1;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sold .btn-interest { opacity: 0.3; pointer-events: none; }
+
+    /* Mobile nav */
+    #nav-toggle { display: none; }
+    @media (max-width: 640px) {
+      #nav-toggle { display: flex; }
+      #nav-links {
+        position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+        background: #FDFFF1; border-bottom: 1px solid rgba(24,42,71,.12);
+        flex-direction: column; gap: 0; display: none;
+      }
+      #nav-links.open { display: flex; }
+      #nav-links li { border-bottom: 1px solid rgba(24,42,71,.12); }
+      #nav-links a { display: block; padding: 1rem 2rem; }
+      .nav-cta-mobile {
+        background: #182A47 !important; color: #FDFFF1 !important;
+        border: none !important; border-radius: 0 !important;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    /* Carousel */
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(255,255,255,0.88); border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 10; color: #182A47;
+      font-size: 1.2rem; line-height: 1;
+      opacity: 0; transition: opacity 0.15s;
+      box-shadow: 0 1px 6px rgba(0,0,0,.15);
+    }
+    .saddle-photo:hover .carousel-btn { opacity: 1; }
+    @media (hover: none) { .carousel-btn { opacity: 0.85; } }
+    .carousel-prev { left: 8px; }
+    .carousel-next { right: 8px; }
+    .carousel-dots {
+      position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 5px; z-index: 10; pointer-events: none;
+    }
+    .carousel-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: rgba(255,255,255,0.4); border: none; padding: 0;
+      cursor: pointer; transition: background 0.15s; flex-shrink: 0;
+      pointer-events: all;
+    }
+    .carousel-dot.active { background: #fff; }
+    /* Photo lightbox */
+    #photo-lightbox { display: none; }
+    #photo-lightbox.open { display: flex; }
+  </style>
+</head>
+
+<body class="bg-white text-navy font-serif leading-relaxed">
+
+  <!-- NAV -->
+  <header class="sticky top-0 z-[100] bg-cream border-b border-navy/[.12]">
+    <nav class="flex items-center justify-between px-8 h-16">
+      <a href="#" class="flex-shrink-0">
+        <img src="logo.png" alt="North Lusitanos" class="h-10 w-10 object-contain" />
+      </a>
+      <button id="nav-toggle" aria-label="Abrir menu" class="flex-col gap-[5px] bg-transparent border-0 cursor-pointer p-1">
+        <span class="block w-[22px] h-[2px] bg-navy rounded-sm"></span>
+        <span class="block w-[22px] h-[2px] bg-navy rounded-sm"></span>
+        <span class="block w-[22px] h-[2px] bg-navy rounded-sm"></span>
+      </button>
+      <ul id="nav-links" class="flex items-center gap-10 list-none">
+        <li><a href="#selas" class="text-[0.72rem] font-bold tracking-[0.15em] uppercase opacity-50 hover:opacity-100 transition-opacity duration-200">Selas</a></li>
+        <li><a href="#como-comprar" class="text-[0.72rem] font-bold tracking-[0.15em] uppercase opacity-50 hover:opacity-100 transition-opacity duration-200">Como Comprar</a></li>
+        <li><a href="#contacto" class="nav-cta-mobile text-[0.72rem] font-bold tracking-[0.15em] uppercase border border-navy/50 px-[1.1rem] py-[0.45rem] rounded-sm hover:bg-navy hover:text-cream transition-[background,color] duration-200">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="bg-navy py-28 px-8 text-center text-cream">
+    <p class="text-[0.7rem] font-bold tracking-[0.3em] uppercase opacity-40 mb-7">Selas em Segunda Mão · Portugal</p>
+    <h1 class="text-[clamp(2.75rem,7vw,5.5rem)] font-bold tracking-[0.03em] leading-[1.05] mb-8">Dressage &amp;<br>Jumping Saddles</h1>
+    <div class="w-12 h-px bg-cream opacity-20 mx-auto mb-8"></div>
+    <p class="text-[clamp(0.9rem,2vw,1.05rem)] opacity-50 max-w-[380px] mx-auto mb-10 leading-[1.75]">Selas de qualidade, selecionadas com rigor — a preços acessíveis.</p>
+    <a href="#selas" class="inline-block bg-cream text-navy text-[0.72rem] font-bold tracking-[0.2em] uppercase px-9 py-[0.9rem] rounded-sm hover:opacity-85 transition-opacity duration-200">Ver Selas Disponíveis</a>
+  </section>
+
+  <!-- SELAS -->
+  <div id="selas">
+    <div class="max-w-[1100px] mx-auto px-8 py-[5.5rem]">
+      <span class="block text-[0.65rem] font-bold tracking-[0.3em] uppercase opacity-[.35] mb-2">Disponíveis agora</span>
+      <h2 class="text-[clamp(1.6rem,3.5vw,2.5rem)] font-bold tracking-[0.02em] mb-[0.6rem]">Selas</h2>
+      <p class="text-[0.88rem] opacity-50 max-w-[520px] leading-[1.7] mb-12">Todas as selas são inspeccionadas antes de serem listadas. As fotos são do próprio artigo.</p>
+
+      <div class="flex items-center justify-between mb-10">
+
+        <!-- Filtros dropdown -->
+        <div class="relative">
+          <button id="filtros-btn" class="dropdown-btn font-serif text-[0.68rem] font-bold tracking-[0.15em] uppercase flex items-center gap-[0.45rem] px-4 py-[0.5rem] border border-navy/[.15] rounded-sm bg-transparent text-navy cursor-pointer">
+            <svg class="w-[13px] h-[13px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+            Filtros
+            <span id="filtros-badge" class="hidden items-center justify-center min-w-[1rem] h-4 rounded-full text-[0.5rem] font-bold px-[0.25rem] leading-none"></span>
+            <svg class="dropdown-chevron w-[9px] h-[9px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+
+          <div id="filtros-dropdown" class="hidden absolute top-[calc(100%+6px)] left-0 z-50 bg-white border border-navy/[.12] rounded-sm shadow-[0_8px_32px_rgba(24,42,71,.1)] min-w-[200px]">
+            <!-- Tipo -->
+            <div class="px-4 pt-4 pb-3 border-b border-navy/[.06]">
+              <p class="text-[0.55rem] font-bold tracking-[0.2em] uppercase opacity-[.35] mb-3">Tipo</p>
+              <div class="flex flex-col gap-[0.55rem]">
+                <label class="flex items-center gap-[0.6rem] cursor-pointer">
+                  <input type="checkbox" class="tipo-check" value="dressage" checked />
+                  <span class="text-[0.72rem] font-bold tracking-[0.08em] uppercase opacity-50">Dressage</span>
+                </label>
+                <label class="flex items-center gap-[0.6rem] cursor-pointer">
+                  <input type="checkbox" class="tipo-check" value="salto" checked />
+                  <span class="text-[0.72rem] font-bold tracking-[0.08em] uppercase opacity-50">Salto</span>
+                </label>
+              </div>
+            </div>
+            <!-- Estado -->
+            <div class="px-4 pt-3 pb-4">
+              <p class="text-[0.55rem] font-bold tracking-[0.2em] uppercase opacity-[.35] mb-3">Estado</p>
+              <div class="flex flex-col gap-[0.55rem]">
+                <label class="flex items-center gap-[0.6rem] cursor-pointer">
+                  <input type="checkbox" class="estado-check" value="available" checked />
+                  <span class="text-[0.72rem] font-bold tracking-[0.08em] uppercase opacity-50">Disponíveis</span>
+                </label>
+                <label class="flex items-center gap-[0.6rem] cursor-pointer">
+                  <input type="checkbox" class="estado-check" value="sold" checked />
+                  <span class="text-[0.72rem] font-bold tracking-[0.08em] uppercase opacity-50">Vendidas</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ordenar dropdown -->
+        <div class="relative">
+          <button id="ordenar-btn" class="dropdown-btn font-serif text-[0.68rem] font-bold tracking-[0.15em] uppercase flex items-center gap-[0.45rem] px-4 py-[0.5rem] border border-navy/[.15] rounded-sm bg-transparent text-navy cursor-pointer">
+            Ordenar
+            <svg class="dropdown-chevron w-[9px] h-[9px] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+
+          <div id="ordenar-dropdown" class="hidden absolute top-[calc(100%+6px)] right-0 z-50 bg-white border border-navy/[.12] rounded-sm shadow-[0_8px_32px_rgba(24,42,71,.1)] min-w-[160px]">
+            <div class="p-2">
+              <label class="flex items-center gap-[0.6rem] px-2 py-[0.4rem] rounded-[2px] cursor-pointer hover:bg-navy/[.04] transition-colors">
+                <input type="radio" name="sort" value="default" checked />
+                <span class="text-[0.72rem] font-bold tracking-[0.08em] uppercase opacity-50">Recentes</span>
+              </label>
+              <label class="flex items-center gap-[0.6rem] px-2 py-[0.4rem] rounded-[2px] cursor-pointer hover:bg-navy/[.04] transition-colors">
+                <input type="radio" name="sort" value="price-asc" />
+                <span class="text-[0.72rem] font-bold tracking-[0.08em] uppercase opacity-50">Preço ↑</span>
+              </label>
+              <label class="flex items-center gap-[0.6rem] px-2 py-[0.4rem] rounded-[2px] cursor-pointer hover:bg-navy/[.04] transition-colors">
+                <input type="radio" name="sort" value="price-desc" />
+                <span class="text-[0.72rem] font-bold tracking-[0.08em] uppercase opacity-50">Preço ↓</span>
+              </label>
+              <label class="flex items-center gap-[0.6rem] px-2 py-[0.4rem] rounded-[2px] cursor-pointer hover:bg-navy/[.04] transition-colors">
+                <input type="radio" name="sort" value="name-asc" />
+                <span class="text-[0.72rem] font-bold tracking-[0.08em] uppercase opacity-50">Nome ↑</span>
+              </label>
+              <label class="flex items-center gap-[0.6rem] px-2 py-[0.4rem] rounded-[2px] cursor-pointer hover:bg-navy/[.04] transition-colors">
+                <input type="radio" name="sort" value="name-desc" />
+                <span class="text-[0.72rem] font-bold tracking-[0.08em] uppercase opacity-50">Nome ↓</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="saddles-grid" class="grid grid-cols-3 gap-6 max-[900px]:grid-cols-2 max-[560px]:grid-cols-1">
+
+        <!-- 1 -->
+        <div class="border border-navy/[.12] rounded-sm overflow-hidden bg-white flex flex-col transition-[border-color,box-shadow] duration-200 hover:border-navy/20 hover:shadow-[0_4px_24px_rgba(24,42,71,.07)]" data-type="salto" data-saddle="Prestige Archimede · 17&quot;" data-price="575" data-photos='["Sela1/1.1.jpeg","Sela1/1.2.jpeg","Sela1/1.3.jpeg"]'>
+          <div class="saddle-photo bg-cream aspect-[4/3] flex items-center justify-center relative border-b border-navy/[.12] overflow-hidden cursor-pointer">
+            <img class="absolute inset-0 w-full h-full object-cover saddle-img" src="Sela1/1.1.jpeg" alt="Prestige Archimede" />
+          </div>
+          <div class="flex-1 flex flex-col gap-2 px-5 pt-5 pb-3">
+            <p class="text-[0.6rem] font-bold tracking-[0.2em] uppercase opacity-[.38]">Salto</p>
+            <h3 class="text-[1rem] font-bold leading-[1.25]">Prestige Archimede</h3>
+            <div class="flex flex-wrap gap-x-4 gap-y-1">
+              <span class="text-[0.72rem] opacity-[.45]">Tam. <strong>17"</strong></span>
+              <span class="text-[0.72rem] opacity-[.45]">Couro</span>
+            </div>
+            <p class="text-[0.78rem] opacity-50 leading-[1.6] mt-[0.15rem]">Sela de salto italiana em couro castanho. Flaps avançadas, assento confortável. Bom estado geral.</p>
+          </div>
+          <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-navy/[.12]">
+            <p class="text-[1.4rem] font-bold"><span class="text-[0.85rem] opacity-50 mr-[0.1rem]">575€</p>
+            <button class="btn-interest font-serif text-[0.63rem] font-bold tracking-[0.15em] uppercase bg-navy text-cream border-0 px-4 py-[0.55rem] rounded-sm cursor-pointer whitespace-nowrap hover:opacity-75 transition-opacity duration-200">Tenho Interesse</button>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="sold border border-navy/[.12] rounded-sm overflow-hidden bg-white flex flex-col transition-[border-color,box-shadow] duration-200 hover:border-navy/20 hover:shadow-[0_4px_24px_rgba(24,42,71,.07)]" data-type="dressage" data-saddle="Bates Innova · 17.5&quot;" data-price="950" data-photos='["Sela2/2.1.jpeg","Sela2/2.2.jpeg","Sela2/2.3.jpeg","Sela2/2.4.jpeg"]'>
+          <div class="saddle-photo bg-cream aspect-[4/3] flex items-center justify-center relative border-b border-navy/[.12] overflow-hidden cursor-pointer">
+            <img class="absolute inset-0 w-full h-full object-cover saddle-img" src="Sela2/2.1.jpeg" alt="Bates Innova" />
+          </div>
+          <div class="flex-1 flex flex-col gap-2 px-5 pt-5 pb-3">
+            <p class="text-[0.6rem] font-bold tracking-[0.2em] uppercase opacity-[.38]">Dressage</p>
+            <h3 class="text-[1rem] font-bold leading-[1.25]">Bates Innova</h3>
+            <div class="flex flex-wrap gap-x-4 gap-y-1">
+              <span class="text-[0.72rem] opacity-[.45]">Tam. <strong>17.5"</strong></span>
+              <span class="text-[0.72rem] opacity-[.45]">Couro</span>
+            </div>
+            <p class="text-[0.78rem] opacity-50 leading-[1.6] mt-[0.15rem]">Dressage em couro preto, muito bem conservada. Flaps longas e assento profundo. Muito bom estado.</p>
+          </div>
+          <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-navy/[.12]">
+            <p class="text-[1.4rem] font-bold"><span class="text-[0.85rem] opacity-50 mr-[0.1rem]">950€</p>
+            <button class="btn-interest font-serif text-[0.63rem] font-bold tracking-[0.15em] uppercase bg-navy text-cream border-0 px-4 py-[0.55rem] rounded-sm cursor-pointer whitespace-nowrap hover:opacity-75 transition-opacity duration-200">Tenho Interesse</button>
+          </div>
+        </div>
+
+        <!-- 9 -->
+        <div class="border border-navy/[.12] rounded-sm overflow-hidden bg-white flex flex-col transition-[border-color,box-shadow] duration-200 hover:border-navy/20 hover:shadow-[0_4px_24px_rgba(24,42,71,.07)]" data-type="dressage" data-saddle="Santa Cruz · 17.5&quot;" data-price="375" data-photos='["Sela3/3.1.jpeg","Sela3/3.2.jpeg"]'>
+          <div class="saddle-photo bg-cream aspect-[4/3] flex items-center justify-center relative border-b border-navy/[.12] overflow-hidden cursor-pointer">
+            <img class="absolute inset-0 w-full h-full object-cover saddle-img" src="Sela3/3.1.jpeg" alt="Santa Cruz" />
+          </div>
+          <div class="flex-1 flex flex-col gap-2 px-5 pt-5 pb-3">
+            <p class="text-[0.6rem] font-bold tracking-[0.2em] uppercase opacity-[.38]">Dressage</p>
+            <h3 class="text-[1rem] font-bold leading-[1.25]">Santa Cruz</h3>
+            <div class="flex flex-wrap gap-x-4 gap-y-1">
+              <span class="text-[0.72rem] opacity-[.45]">Tam. <strong>17.5"</strong></span>
+              <span class="text-[0.72rem] opacity-[.45]">Couro</span>
+            </div>
+            <p class="text-[0.78rem] opacity-50 leading-[1.6] mt-[0.15rem]">Sela de dressage em couro preto. Bom estado geral, ideal para uso diário de treino.</p>
+          </div>
+          <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-navy/[.12]">
+            <p class="text-[1.4rem] font-bold"><span class="text-[0.85rem] opacity-50 mr-[0.1rem]">375€</p>
+            <button class="btn-interest font-serif text-[0.63rem] font-bold tracking-[0.15em] uppercase bg-navy text-cream border-0 px-4 py-[0.55rem] rounded-sm cursor-pointer whitespace-nowrap hover:opacity-75 transition-opacity duration-200">Tenho Interesse</button>
+          </div>
+        </div>
+
+        <!-- 10 -->
+        <div class="sold border border-navy/[.12] rounded-sm overflow-hidden bg-white flex flex-col transition-[border-color,box-shadow] duration-200 hover:border-navy/20 hover:shadow-[0_4px_24px_rgba(24,42,71,.07)]" data-type="dressage" data-saddle="Kentaur Penelopa · 17.5&quot;" data-price="350" data-photos='["Sela4/4.1.jpeg","Sela4/4.2.jpeg","Sela4/4.3.jpeg","Sela4/4.4.jpeg"]'>
+          <div class="saddle-photo bg-cream aspect-[4/3] flex items-center justify-center relative border-b border-navy/[.12] overflow-hidden cursor-pointer">
+            <img class="absolute inset-0 w-full h-full object-cover saddle-img" src="Sela4/4.1.jpeg" alt="Kentaur Penelopa" />
+          </div>
+          <div class="flex-1 flex flex-col gap-2 px-5 pt-5 pb-3">
+            <p class="text-[0.6rem] font-bold tracking-[0.2em] uppercase opacity-[.38]">Dressage</p>
+            <h3 class="text-[1rem] font-bold leading-[1.25]">Kentaur Penelopa</h3>
+            <div class="flex flex-wrap gap-x-4 gap-y-1">
+              <span class="text-[0.72rem] opacity-[.45]">Tam. <strong>17.5"</strong></span>
+              <span class="text-[0.72rem] opacity-[.45]">Couro</span>
+            </div>
+            <p class="text-[0.78rem] opacity-50 leading-[1.6] mt-[0.15rem]">Sela de dressage Kentaur em couro preto. Acompanha loros e estribos. Bom estado geral.</p>
+          </div>
+          <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-navy/[.12]">
+            <p class="text-[1.4rem] font-bold"><span class="text-[0.85rem] opacity-50 mr-[0.1rem]">350€</p>
+            <button class="btn-interest font-serif text-[0.63rem] font-bold tracking-[0.15em] uppercase bg-navy text-cream border-0 px-4 py-[0.55rem] rounded-sm cursor-pointer whitespace-nowrap hover:opacity-75 transition-opacity duration-200">Tenho Interesse</button>
+          </div>
+        </div>
+
+        <!-- 11 -->
+        <div class="sold border border-navy/[.12] rounded-sm overflow-hidden bg-white flex flex-col transition-[border-color,box-shadow] duration-200 hover:border-navy/20 hover:shadow-[0_4px_24px_rgba(24,42,71,.07)]" data-type="dressage" data-saddle="Kentaur Medea · 17.5&quot;" data-price="350" data-photos='["Sela5/5.1.jpeg","Sela5/5.2.jpeg","Sela5/5.3.jpeg","Sela5/5.4.jpeg","Sela5/5.5.jpeg"]'>
+          <div class="saddle-photo bg-cream aspect-[4/3] flex items-center justify-center relative border-b border-navy/[.12] overflow-hidden cursor-pointer">
+            <img class="absolute inset-0 w-full h-full object-cover saddle-img" src="Sela5/5.1.jpeg" alt="Kentaur Medea" />
+          </div>
+          <div class="flex-1 flex flex-col gap-2 px-5 pt-5 pb-3">
+            <p class="text-[0.6rem] font-bold tracking-[0.2em] uppercase opacity-[.38]">Dressage</p>
+            <h3 class="text-[1rem] font-bold leading-[1.25]">Kentaur Medea</h3>
+            <div class="flex flex-wrap gap-x-4 gap-y-1">
+              <span class="text-[0.72rem] opacity-[.45]">Tam. <strong>17.5"</strong></span>
+              <span class="text-[0.72rem] opacity-[.45]">Couro</span>
+            </div>
+            <p class="text-[0.78rem] opacity-50 leading-[1.6] mt-[0.15rem]">Dressage Kentaur em couro preto. Assento confortável, flaps longas. Bom estado de conservação.</p>
+          </div>
+          <div class="flex items-center justify-between gap-3 px-5 py-4 border-t border-navy/[.12]">
+            <p class="text-[1.4rem] font-bold"><span class="text-[0.85rem] opacity-50 mr-[0.1rem]">350€</p>
+            <button class="btn-interest font-serif text-[0.63rem] font-bold tracking-[0.15em] uppercase bg-navy text-cream border-0 px-4 py-[0.55rem] rounded-sm cursor-pointer whitespace-nowrap hover:opacity-75 transition-opacity duration-200">Tenho Interesse</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- COMO COMPRAR -->
+  <div id="como-comprar" class="bg-cream border-t border-b border-navy/[.12]">
+    <div class="max-w-[1100px] mx-auto px-8 py-[5.5rem]">
+      <span class="block text-[0.65rem] font-bold tracking-[0.3em] uppercase opacity-[.35] mb-2">Processo simples</span>
+      <h2 class="text-[clamp(1.6rem,3.5vw,2.5rem)] font-bold tracking-[0.02em] mb-[0.6rem]">Como Comprar</h2>
+      <p class="text-[0.88rem] opacity-50 max-w-[520px] leading-[1.7] mb-12">Sem loja física — toda a comunicação é feita online ou por telefone.</p>
+      <div class="grid grid-cols-3 gap-10 max-[680px]:grid-cols-1 max-[680px]:gap-8">
+        <div>
+          <p class="text-[2.75rem] font-bold opacity-10 leading-none mb-3">01</p>
+          <h3 class="text-[1.05rem] font-bold mb-2">Escolhe a Sela</h3>
+          <p class="text-[0.82rem] opacity-50 leading-[1.7]">Navega pelo catálogo e clica em "Tenho Interesse" na sela que te interessa.</p>
+        </div>
+        <div>
+          <p class="text-[2.75rem] font-bold opacity-10 leading-none mb-3">02</p>
+          <h3 class="text-[1.05rem] font-bold mb-2">Entra em Contacto</h3>
+          <p class="text-[0.82rem] opacity-50 leading-[1.7]">Fala connosco por Instagram, WhatsApp ou email. Enviamos fotos adicionais e mais informações.</p>
+        </div>
+        <div>
+          <p class="text-[2.75rem] font-bold opacity-10 leading-none mb-3">03</p>
+          <h3 class="text-[1.05rem] font-bold mb-2">Combinamos a Entrega</h3>
+          <p class="text-[0.82rem] opacity-50 leading-[1.7]">Enviamos para todo o país por transportadora, ou combinamos entrega em mão. A sela parte após confirmação de pagamento.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACTO -->
+  <div id="contacto">
+    <div class="max-w-[1100px] mx-auto px-8 py-[5.5rem]">
+      <span class="block text-[0.65rem] font-bold tracking-[0.3em] uppercase opacity-[.35] mb-2">Fala connosco</span>
+      <h2 class="text-[clamp(1.6rem,3.5vw,2.5rem)] font-bold tracking-[0.02em] mb-[0.6rem]">Contacto</h2>
+      <p class="text-[0.88rem] opacity-50 max-w-[520px] leading-[1.7] mb-12">Disponíveis para responder a dúvidas, enviar fotos adicionais ou combinar uma visita. Também compramos selas.</p>
+      <div class="grid grid-cols-3 gap-6 max-[680px]:grid-cols-1">
+
+        <a href="https://www.instagram.com/northlusitanosstore" target="_blank" rel="noopener noreferrer" class="border border-navy/[.12] rounded-sm p-8 flex flex-col gap-[0.65rem] hover:border-navy hover:shadow-[0_4px_20px_rgba(24,42,71,.07)] transition-[border-color,box-shadow] duration-200">
+          <div class="w-[42px] h-[42px] rounded-full bg-navy/[.07] flex items-center justify-center mb-1">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"></circle>
+            </svg>
+          </div>
+          <p class="text-[1rem] font-bold">Instagram</p>
+          <p class="text-[0.82rem] opacity-50">@northlusitanosstore</p>
+          <p class="text-[0.78rem] opacity-[.4] leading-[1.6]">Segue-nos para novidades e envia mensagem directa para qualquer questão.</p>
+        </a>
+
+        <a href="https://wa.me/351913615196?text=Ol%C3%A1!+Tenho+interesse+numa+sela+do+North+Lusitanos." target="_blank" rel="noopener noreferrer" class="border border-navy/[.12] rounded-sm p-8 flex flex-col gap-[0.65rem] hover:border-navy hover:shadow-[0_4px_20px_rgba(24,42,71,.07)] transition-[border-color,box-shadow] duration-200">
+          <div class="w-[42px] h-[42px] rounded-full bg-navy/[.07] flex items-center justify-center mb-1">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+            </svg>
+          </div>
+          <p class="text-[1rem] font-bold">WhatsApp</p>
+          <p class="text-[0.82rem] opacity-50">+351 913 615 196</p>
+          <p class="text-[0.78rem] opacity-[.4] leading-[1.6]">Envia mensagem e respondemos com fotos, medidas e todas as informações.</p>
+        </a>
+
+        <a href="mailto:guilherme.areal10@gmail.com" class="border border-navy/[.12] rounded-sm p-8 flex flex-col gap-[0.65rem] hover:border-navy hover:shadow-[0_4px_20px_rgba(24,42,71,.07)] transition-[border-color,box-shadow] duration-200">
+          <div class="w-[42px] h-[42px] rounded-full bg-navy/[.07] flex items-center justify-center mb-1">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </div>
+          <p class="text-[1rem] font-bold">Email</p>
+          <p class="text-[0.82rem] opacity-50">guilherme.areal10@gmail.com</p>
+          <p class="text-[0.78rem] opacity-[.4] leading-[1.6]">Para questões mais detalhadas ou para receber um catálogo actualizado.</p>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-navy text-cream py-12 px-8">
+    <div class="max-w-[1100px] mx-auto flex items-center justify-between flex-wrap gap-6">
+      <div class="flex items-center gap-3">
+        <img src="logo-navy.png" alt="North Lusitanos" class="h-[38px] w-[38px] object-contain" />
+        <span class="text-[0.85rem] font-bold tracking-[0.08em] opacity-80">North Lusitanos</span>
+      </div>
+      <ul class="flex gap-8 list-none flex-wrap">
+        <li><a href="#selas" class="text-[0.63rem] font-bold tracking-[0.15em] uppercase opacity-30 hover:opacity-75 transition-opacity duration-200">Selas</a></li>
+        <li><a href="#como-comprar" class="text-[0.63rem] font-bold tracking-[0.15em] uppercase opacity-30 hover:opacity-75 transition-opacity duration-200">Como Comprar</a></li>
+        <li><a href="#contacto" class="text-[0.63rem] font-bold tracking-[0.15em] uppercase opacity-30 hover:opacity-75 transition-opacity duration-200">Contacto</a></li>
+        <li><a href="https://www.instagram.com/northlusitanosstore" target="_blank" rel="noopener noreferrer" class="text-[0.63rem] font-bold tracking-[0.15em] uppercase opacity-30 hover:opacity-75 transition-opacity duration-200">Instagram</a></li>
+      </ul>
+      <span class="text-[0.63rem] opacity-[.22] tracking-[0.08em]">© 2026 North Lusitanos</span>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div id="modal-overlay" class="fixed inset-0 bg-navy/45 z-[200] p-6 backdrop-blur-sm">
+    <div class="bg-white rounded-sm max-w-[400px] w-full overflow-hidden shadow-[0_24px_80px_rgba(24,42,71,.25)]" role="dialog" aria-modal="true" aria-labelledby="modal-saddle">
+      <div class="bg-navy px-7 py-6 text-cream">
+        <p class="text-[0.58rem] font-bold tracking-[0.25em] uppercase opacity-[.45] mb-[0.4rem]">Tenho Interesse</p>
+        <p id="modal-saddle" class="text-[1.05rem] font-bold"></p>
+      </div>
+      <div class="p-7">
+        <p class="text-[0.82rem] opacity-[.55] leading-[1.65] mb-6">Escolhe como preferes contactar-nos. Menciona o nome da sela na tua mensagem.</p>
+        <div class="flex flex-col gap-[0.65rem]">
+          <a id="modal-wa" class="flex items-center gap-[0.9rem] px-4 py-[0.85rem] border border-navy/[.12] rounded-sm text-[0.82rem] font-bold text-navy hover:border-navy hover:bg-cream transition-[border-color,background] duration-[180ms] cursor-pointer" target="_blank" rel="noopener noreferrer">
+            <div class="w-[34px] h-[34px] rounded-full bg-[rgba(37,211,102,.14)] flex items-center justify-center flex-shrink-0">
+              <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+              </svg>
+            </div>
+            <div>
+              <strong class="block text-[0.85rem]">WhatsApp</strong>
+              <span class="text-[0.68rem] opacity-[.45] font-normal">+351 913 615 196</span>
+            </div>
+          </a>
+          <a class="flex items-center gap-[0.9rem] px-4 py-[0.85rem] border border-navy/[.12] rounded-sm text-[0.82rem] font-bold text-navy hover:border-navy hover:bg-cream transition-[border-color,background] duration-[180ms]" href="https://www.instagram.com/northlusitanosstore" target="_blank" rel="noopener noreferrer">
+            <div class="w-[34px] h-[34px] rounded-full bg-navy/[.08] flex items-center justify-center flex-shrink-0">
+              <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"></circle>
+              </svg>
+            </div>
+            <div>
+              <strong class="block text-[0.85rem]">Instagram</strong>
+              <span class="text-[0.68rem] opacity-[.45] font-normal">@northlusitanosstore</span>
+            </div>
+          </a>
+          <a id="modal-em" class="flex items-center gap-[0.9rem] px-4 py-[0.85rem] border border-navy/[.12] rounded-sm text-[0.82rem] font-bold text-navy hover:border-navy hover:bg-cream transition-[border-color,background] duration-[180ms] cursor-pointer">
+            <div class="w-[34px] h-[34px] rounded-full bg-navy/[.08] flex items-center justify-center flex-shrink-0">
+              <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div>
+              <strong class="block text-[0.85rem]">Email</strong>
+              <span class="text-[0.68rem] opacity-[.45] font-normal">guilherme.areal10@gmail.com</span>
+            </div>
+          </a>
+        </div>
+        <button id="modal-dismiss" class="block mt-5 w-full font-serif text-[0.63rem] font-bold tracking-[0.15em] uppercase bg-transparent border border-navy/[.12] text-navy px-4 py-[0.65rem] rounded-sm cursor-pointer opacity-[.45] hover:opacity-100 transition-opacity duration-200">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHOTO LIGHTBOX -->
+  <div id="photo-lightbox" class="fixed inset-0 bg-black/[.88] z-[300] backdrop-blur-[2px]">
+    <button id="lightbox-close" aria-label="Fechar" class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white border-0 cursor-pointer z-20 transition-colors text-[1.1rem] leading-none">✕</button>
+    <button id="lightbox-prev" aria-label="Foto anterior" class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-[1.8rem] border-0 cursor-pointer z-20 transition-colors leading-none">&#8249;</button>
+    <button id="lightbox-next" aria-label="Próxima foto" class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-[1.8rem] border-0 cursor-pointer z-20 transition-colors leading-none">&#8250;</button>
+    <img id="lightbox-img" src="" alt="" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[min(90vw,1000px)] max-h-[85vh] object-contain rounded-sm select-none z-10" />
+    <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex flex-col items-center gap-[0.3rem] pointer-events-none z-20">
+      <span id="lightbox-name" class="text-white/40 text-[0.58rem] font-bold tracking-[0.22em] uppercase font-serif"></span>
+      <span id="lightbox-counter" class="text-white/25 text-[0.58rem] tracking-[0.08em] font-serif"></span>
+    </div>
+  </div>
+
+  <script>
+    // ── Filter + Sort State ────────────────────────────────────────────────
+    let selectedTypes  = new Set(['dressage', 'salto']);
+    let selectedStates = new Set(['available', 'sold']);
+    let activeSort     = 'default';
+
+    function applyView() {
+      const grid  = document.getElementById('saddles-grid');
+      const cards = Array.from(grid.querySelectorAll('[data-saddle]'));
+      // Sort: available first, then by chosen order
+      cards.sort((a, b) => {
+        const aSold = a.classList.contains('sold');
+        const bSold = b.classList.contains('sold');
+        if (aSold !== bSold) return aSold ? 1 : -1;
+        if (activeSort === 'price-asc')  return parseInt(a.dataset.price) - parseInt(b.dataset.price);
+        if (activeSort === 'price-desc') return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+        if (activeSort === 'name-asc')   return a.dataset.saddle.localeCompare(b.dataset.saddle, 'pt');
+        if (activeSort === 'name-desc')  return b.dataset.saddle.localeCompare(a.dataset.saddle, 'pt');
+        return 0;
+      });
+      cards.forEach(c => grid.appendChild(c));
+      // Filter visibility
+      cards.forEach(card => {
+        const isSold  = card.classList.contains('sold');
+        const typeOk  = selectedTypes.has(card.dataset.type);
+        const stateOk = (selectedStates.has('available') && !isSold)
+                     || (selectedStates.has('sold')      &&  isSold);
+        card.style.display = (typeOk && stateOk) ? '' : 'none';
+      });
+    }
+    applyView();
+
+    document.getElementById('nav-toggle').addEventListener('click', () => {
+      document.getElementById('nav-links').classList.toggle('open');
+    });
+    document.querySelectorAll('#nav-links a').forEach(a => {
+      a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+    });
+
+    // ── Dropdown toggles ──────────────────────────────────────────────────
+    const filtrosBtn      = document.getElementById('filtros-btn');
+    const ordenarBtn      = document.getElementById('ordenar-btn');
+    const filtrosDropdown = document.getElementById('filtros-dropdown');
+    const ordenarDropdown = document.getElementById('ordenar-dropdown');
+
+    function closeAllDropdowns() {
+      filtrosDropdown.classList.add('hidden');
+      ordenarDropdown.classList.add('hidden');
+      filtrosBtn.classList.remove('open');
+      ordenarBtn.classList.remove('open');
+    }
+
+    filtrosBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      const wasOpen = filtrosBtn.classList.contains('open');
+      closeAllDropdowns();
+      if (!wasOpen) { filtrosDropdown.classList.remove('hidden'); filtrosBtn.classList.add('open'); }
+    });
+    ordenarBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      const wasOpen = ordenarBtn.classList.contains('open');
+      closeAllDropdowns();
+      if (!wasOpen) { ordenarDropdown.classList.remove('hidden'); ordenarBtn.classList.add('open'); }
+    });
+    filtrosDropdown.addEventListener('click', e => e.stopPropagation());
+    ordenarDropdown.addEventListener('click', e => e.stopPropagation());
+    document.addEventListener('click', closeAllDropdowns);
+
+    // ── Tipo checkboxes ───────────────────────────────────────────────────
+    document.querySelectorAll('.tipo-check').forEach(cb => {
+      cb.addEventListener('change', () => {
+        cb.checked ? selectedTypes.add(cb.value) : selectedTypes.delete(cb.value);
+        updateFiltrosBadge(); applyView();
+      });
+    });
+
+    // ── Estado checkboxes ─────────────────────────────────────────────────
+    document.querySelectorAll('.estado-check').forEach(cb => {
+      cb.addEventListener('change', () => {
+        cb.checked ? selectedStates.add(cb.value) : selectedStates.delete(cb.value);
+        updateFiltrosBadge(); applyView();
+      });
+    });
+
+    // ── Sort radios ───────────────────────────────────────────────────────
+    document.querySelectorAll('input[name="sort"]').forEach(radio => {
+      radio.addEventListener('change', () => { if (radio.checked) { activeSort = radio.value; applyView(); } });
+    });
+
+    // ── Active filter badge ───────────────────────────────────────────────
+    function updateFiltrosBadge() {
+      const excluded = (2 - selectedTypes.size) + (2 - selectedStates.size);
+      const badge = document.getElementById('filtros-badge');
+      badge.textContent = excluded || '';
+      badge.classList.toggle('hidden', excluded === 0);
+      badge.classList.toggle('flex',   excluded > 0);
+    }
+
+    const overlay    = document.getElementById('modal-overlay');
+    const modalTitle = document.getElementById('modal-saddle');
+    const modalWa    = document.getElementById('modal-wa');
+    const modalEm    = document.getElementById('modal-em');
+
+    function openModal(name) {
+      modalTitle.textContent = name;
+      const msg = encodeURIComponent('Olá! Tenho interesse na sela ' + name + ' do North Lusitanos.');
+      modalWa.href = 'https://wa.me/351913615196?text=' + msg;
+      modalEm.href = 'mailto:guilherme.areal10@gmail.com?subject=' +
+        encodeURIComponent('Interesse em Sela') + '&body=' + msg;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('saddles-grid').addEventListener('click', e => {
+      const btn = e.target.closest('.btn-interest');
+      if (!btn) return;
+      const card = btn.closest('[data-saddle]');
+      if (card && !card.classList.contains('sold')) {
+        openModal(card.dataset.saddle);
+      }
+    });
+
+    document.getElementById('modal-dismiss').addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // ── Photo carousel & lightbox ───────────────────────────────────────────────
+    const photoLightbox   = document.getElementById('photo-lightbox');
+    const lightboxImg     = document.getElementById('lightbox-img');
+    const lightboxNameEl  = document.getElementById('lightbox-name');
+    const lightboxCounter = document.getElementById('lightbox-counter');
+    const lbPrev          = document.getElementById('lightbox-prev');
+    const lbNext          = document.getElementById('lightbox-next');
+    let lbPhotos = [], lbIdx = 0;
+
+    function openLightbox(photos, idx, name) {
+      lbPhotos = photos; lbIdx = idx;
+      lightboxNameEl.textContent = name;
+      updateLightboxImg();
+      photoLightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      photoLightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function updateLightboxImg() {
+      lightboxImg.src = lbPhotos[lbIdx];
+      lightboxCounter.textContent = lbPhotos.length > 1 ? (lbIdx + 1) + ' / ' + lbPhotos.length : '';
+      lbPrev.style.display = lbPhotos.length > 1 ? '' : 'none';
+      lbNext.style.display = lbPhotos.length > 1 ? '' : 'none';
+    }
+
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', () => { lbIdx = (lbIdx - 1 + lbPhotos.length) % lbPhotos.length; updateLightboxImg(); });
+    lbNext.addEventListener('click', () => { lbIdx = (lbIdx + 1) % lbPhotos.length; updateLightboxImg(); });
+    photoLightbox.addEventListener('click', e => { if (e.target === photoLightbox) closeLightbox(); });
+
+    let lbTouchX = 0;
+    photoLightbox.addEventListener('touchstart', e => { lbTouchX = e.touches[0].clientX; }, { passive: true });
+    photoLightbox.addEventListener('touchend', e => {
+      const diff = lbTouchX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) { lbIdx = (lbIdx + (diff > 0 ? 1 : -1) + lbPhotos.length) % lbPhotos.length; updateLightboxImg(); }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (!photoLightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft')  { lbIdx = (lbIdx - 1 + lbPhotos.length) % lbPhotos.length; updateLightboxImg(); }
+      if (e.key === 'ArrowRight') { lbIdx = (lbIdx + 1) % lbPhotos.length; updateLightboxImg(); }
+    });
+
+    // Initialize carousels
+    document.querySelectorAll('[data-photos]').forEach(card => {
+      const photos = JSON.parse(card.dataset.photos);
+      const photoDiv = card.querySelector('.saddle-photo');
+      const img = photoDiv.querySelector('.saddle-img');
+      let current = 0;
+
+      photoDiv.addEventListener('click', e => {
+        if (e.target.closest('.carousel-btn') || e.target.closest('.carousel-dots')) return;
+        openLightbox(photos, current, card.dataset.saddle);
+      });
+
+      if (photos.length <= 1) return;
+
+      const prev = document.createElement('button');
+      prev.className = 'carousel-btn carousel-prev';
+      prev.innerHTML = '&#8249;';
+      prev.setAttribute('aria-label', 'Foto anterior');
+
+      const next = document.createElement('button');
+      next.className = 'carousel-btn carousel-next';
+      next.innerHTML = '&#8250;';
+      next.setAttribute('aria-label', 'Próxima foto');
+
+      const dotsDiv = document.createElement('div');
+      dotsDiv.className = 'carousel-dots';
+      photos.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Foto ' + (i + 1));
+        dotsDiv.appendChild(dot);
+      });
+
+      photoDiv.appendChild(prev);
+      photoDiv.appendChild(next);
+      photoDiv.appendChild(dotsDiv);
+
+      function goTo(idx) {
+        current = (idx + photos.length) % photos.length;
+        img.src = photos[current];
+        dotsDiv.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+      }
+
+      prev.addEventListener('click', e => { e.stopPropagation(); goTo(current - 1); });
+      next.addEventListener('click', e => { e.stopPropagation(); goTo(current + 1); });
+      dotsDiv.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+        dot.addEventListener('click', e => { e.stopPropagation(); goTo(i); });
+      });
+
+      let touchStartX = 0;
+      photoDiv.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      photoDiv.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+      });
+    });
+  </script>
+
+</body>
+</html>

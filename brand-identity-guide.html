@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>North Lusitanos — Guia de Identidade Visual</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:  #FDFFF1;
+      --navy:   #182A47;
+      --white:  #FFFFFF;
+      --border: rgba(24, 42, 71, 0.12);
+    }
+
+    body {
+      background: var(--white);
+      color: var(--navy);
+      font-family: 'Libre Baskerville', Georgia, serif;
+      line-height: 1.6;
+    }
+
+    /* ── COVER ───────────────────────────────────────────── */
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      background: var(--cream);
+    }
+
+    .cover-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 3rem;
+    }
+
+    .cover h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .cover h2 {
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin-bottom: 3rem;
+    }
+
+    .cover-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--navy);
+      opacity: 0.3;
+      margin: 0 auto 3rem;
+    }
+
+    .cover-meta {
+      font-size: 0.8rem;
+      opacity: 0.4;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── LAYOUT ──────────────────────────────────────────── */
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    section {
+      margin-bottom: 6rem;
+    }
+
+    .section-number {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.35;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    section > h3 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .section-intro {
+      font-size: 0.95rem;
+      opacity: 0.6;
+      max-width: 580px;
+      margin-bottom: 2.5rem;
+    }
+
+    .rule {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 3rem;
+    }
+
+    /* ── LOGO SECTION ────────────────────────────────────── */
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .logo-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .logo-card.dark-bg {
+      background: var(--navy);
+    }
+
+    .logo-card img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+    }
+
+    .logo-card-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.45;
+    }
+
+    .logo-card.dark-bg .logo-card-label {
+      color: var(--cream);
+      opacity: 0.5;
+    }
+
+    /* ── COLOUR SECTION ──────────────────────────────────── */
+    .colour-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .colour-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .colour-swatch {
+      height: 140px;
+      width: 100%;
+    }
+
+    .colour-info {
+      padding: 1.25rem 1.5rem 1.5rem;
+    }
+
+    .colour-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .colour-hex {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      opacity: 0.55;
+      margin-bottom: 0.75rem;
+    }
+
+    .colour-use {
+      font-size: 0.78rem;
+      opacity: 0.55;
+      line-height: 1.5;
+    }
+
+    .colour-use + .colour-use {
+      margin-top: 0.5rem;
+    }
+
+    /* CMYK / RGB table */
+    .colour-values {
+      margin-top: 0.75rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.3rem 1rem;
+      font-size: 0.72rem;
+      opacity: 0.5;
+    }
+
+    .colour-values span { letter-spacing: 0.06em; }
+
+    /* ── TYPOGRAPHY SECTION ──────────────────────────────── */
+    .type-showcase {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 2rem;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .type-row:last-child { border-bottom: none; }
+
+    .type-size-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.35;
+      white-space: nowrap;
+      width: 90px;
+      flex-shrink: 0;
+    }
+
+    .type-sample { font-family: 'Libre Baskerville', Georgia, serif; line-height: 1.2; }
+
+    .type-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .type-detail-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+    }
+
+    .type-detail-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.35;
+      margin-bottom: 0.5rem;
+    }
+
+    .type-detail-value {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .type-detail-sub {
+      font-size: 0.8rem;
+      opacity: 0.5;
+      margin-top: 0.25rem;
+    }
+
+    /* ── USAGE / DO / DON'T ──────────────────────────────── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 600px) { .rules-grid { grid-template-columns: 1fr; } }
+
+    .rules-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .rules-header {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .rules-header.do   { background: rgba(24, 42, 71, 0.07); }
+    .rules-header.dont { background: rgba(180, 30, 30, 0.07); color: #8B1A1A; }
+
+    .rules-body { padding: 1.25rem 1.5rem; }
+
+    .rules-body ul { list-style: none; padding: 0; }
+
+    .rules-body li {
+      font-size: 0.88rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      line-height: 1.45;
+    }
+
+    .rules-body li:last-child { border-bottom: none; }
+
+    .rules-body li::before {
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      margin-top: 0.05rem;
+    }
+
+    .rules-card.do   li::before { content: "✓"; opacity: 0.6; }
+    .rules-card.dont li::before { content: "✗"; color: #8B1A1A; opacity: 0.7; }
+
+    /* ── TONE OF VOICE ───────────────────────────────────── */
+    .tone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tone-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+    }
+
+    .tone-word {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .tone-desc {
+      font-size: 0.78rem;
+      opacity: 0.55;
+      line-height: 1.5;
+    }
+
+    /* ── COMPOSITION EXAMPLE ─────────────────────────────── */
+    .comp-example {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 640px) { .comp-example { grid-template-columns: 1fr; } }
+
+    .comp-light {
+      background: var(--cream);
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .comp-dark {
+      background: var(--navy);
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0.75rem;
+      color: var(--cream);
+    }
+
+    .comp-brand-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .comp-tagline {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    .comp-divider {
+      width: 40px;
+      height: 1px;
+      opacity: 0.25;
+    }
+
+    .comp-divider.light { background: var(--navy); }
+    .comp-divider.dark  { background: var(--cream); }
+
+    .comp-body {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      opacity: 0.65;
+      max-width: 220px;
+    }
+
+    /* ── MOCKUPS ─────────────────────────────────────────── */
+    .mockup-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 640px) { .mockup-grid { grid-template-columns: 1fr; } }
+
+    .mockup-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .mockup-wrap-full {
+      grid-column: 1 / -1;
+    }
+
+    .mockup-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.35;
+    }
+
+    /* — Cartão frente — */
+    .mockup-card-front {
+      background: var(--navy);
+      border-radius: 8px;
+      aspect-ratio: 1.75 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      box-shadow: 0 8px 32px rgba(24,42,71,.18);
+    }
+
+    /* — Cartão verso — */
+    .mockup-card-back {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      aspect-ratio: 1.75 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      box-shadow: 0 8px 32px rgba(24,42,71,.08);
+    }
+
+    .mockup-card-inner {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .mc-eyebrow {
+      font-size: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.55;
+    }
+
+    .mc-brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      line-height: 1.15;
+      color: var(--cream);
+    }
+
+    .mc-sub {
+      font-size: 0.42rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.45;
+    }
+
+    .mc-rule {
+      width: 24px;
+      height: 1px;
+      background: var(--cream);
+      opacity: 0.25;
+    }
+
+    .mc-contact-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+    }
+
+    .mc-contact-line {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--navy);
+      opacity: 0.5;
+      letter-spacing: 0.05em;
+      line-height: 1.8;
+    }
+
+    /* — Etiqueta — */
+    .mockup-tag-outer {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 1.5rem;
+      background: #f0f0ee;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .mockup-tag {
+      background: var(--cream);
+      border: 1px solid rgba(24,42,71,.15);
+      border-radius: 4px 4px 4px 4px;
+      width: 120px;
+      padding: 1.25rem 1rem 1rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,.1);
+      position: relative;
+    }
+
+    .tag-hole {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(24,42,71,.3);
+      margin-bottom: 0.25rem;
+    }
+
+    .tag-brand {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      line-height: 1.3;
+      color: var(--navy);
+    }
+
+    .tag-rule {
+      width: 30px;
+      height: 1px;
+      background: var(--navy);
+      opacity: 0.2;
+    }
+
+    .tag-type {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--navy);
+      opacity: 0.8;
+    }
+
+    .tag-detail {
+      font-size: 0.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      opacity: 0.45;
+      letter-spacing: 0.05em;
+    }
+
+    .tag-price {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.05em;
+    }
+
+    /* — Instagram — */
+    .mockup-instagram {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(24,42,71,.08);
+    }
+
+    .ig-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ig-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--navy);
+      flex-shrink: 0;
+    }
+
+    .ig-username {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+
+    .ig-location {
+      font-size: 0.58rem;
+      opacity: 0.45;
+      line-height: 1.2;
+    }
+
+    .ig-image {
+      background: var(--navy);
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ig-image-inner {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .ig-img-eyebrow {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.5;
+      margin-bottom: 0.6rem;
+    }
+
+    .ig-img-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.1;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.75rem;
+    }
+
+    .ig-img-sub {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--cream);
+      opacity: 0.5;
+      letter-spacing: 0.08em;
+    }
+
+    .ig-caption {
+      padding: 0.65rem 0.85rem 0.85rem;
+      font-size: 0.68rem;
+      line-height: 1.55;
+      color: var(--navy);
+    }
+
+    .ig-bold { font-weight: 700; }
+
+    /* — Website header — */
+    .mockup-web-header {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(24,42,71,.1);
+    }
+
+    .web-topbar {
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 2rem;
+    }
+
+    .web-brand {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--navy);
+    }
+
+    .web-nav {
+      display: flex;
+      gap: 1.75rem;
+    }
+
+    .web-nav span {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--navy);
+      opacity: 0.55;
+      cursor: default;
+    }
+
+    .web-hero {
+      background: var(--navy);
+      padding: 4rem 2rem 4rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .web-hero-eyebrow {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.45;
+    }
+
+    .web-hero-title {
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+    }
+
+    .web-hero-body {
+      font-size: 0.82rem;
+      color: var(--cream);
+      opacity: 0.55;
+      max-width: 360px;
+      line-height: 1.7;
+    }
+
+    .web-hero-btn {
+      display: inline-block;
+      border: 1.5px solid rgba(253,255,241,.4);
+      color: var(--cream);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.25rem;
+      border-radius: 2px;
+      width: fit-content;
+      margin-top: 0.5rem;
+    }
+
+    /* ── PRINT ───────────────────────────────────────────── */
+    @media print {
+      @page {
+        margin: 1.5cm 1.8cm;
+        size: A4;
+      }
+
+      html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+      .cover {
+        min-height: 100vh;
+        padding: 6rem 2rem;
+        page-break-after: always;
+        break-after: page;
+      }
+
+      .page {
+        padding: 2rem 0;
+      }
+
+      section {
+        margin-bottom: 2.5rem;
+      }
+
+      /* prevent breaks inside visual blocks only — not entire sections */
+      .logo-grid,
+      .colour-grid,
+      .colour-card,
+      .type-showcase,
+      .type-details,
+      .type-detail-card,
+      .rules-grid,
+      .rules-card,
+      .tone-grid,
+      .tone-card,
+      .comp-example,
+      .mockup-wrap,
+      .mockup-card-front,
+      .mockup-card-back,
+      .mockup-tag-outer,
+      .mockup-instagram,
+      .mockup-web-header {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .break-before {
+        page-break-before: always;
+        break-before: page;
+      }
+
+      .mockup-card-front,
+      .mockup-card-back,
+      .mockup-tag-outer,
+      .mockup-instagram,
+      .mockup-web-header {
+        box-shadow: none;
+      }
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2.5rem 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      opacity: 0.35;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ COVER ══════════════════════════════════════════════════════ -->
+  <div class="cover">
+    <p class="cover-label">Guia de Identidade Visual</p>
+    <h1>NORTH<br>LUSITANOS</h1>
+    <h2>Dressage and Jumping Saddles</h2>
+    <div class="cover-divider"></div>
+  </div>
+
+  <div class="page">
+
+    <!-- ══ 1 · LOGÓTIPO ══════════════════════════════════════════════ -->
+    <section>
+      <span class="section-number">01</span>
+      <h3>Logótipo</h3>
+      <p class="section-intro">O logótipo combina tipografia serifada clássica com a silhueta de uma sela, evocando tradição equestre e qualidade artesanal.</p>
+      <div class="rule"></div>
+
+      <div class="logo-grid">
+        <div class="logo-card" style="background: var(--cream);">
+          <img src="logo.png" alt="North Lusitanos logo — fundo claro" />
+          <span class="logo-card-label">Versão principal</span>
+        </div>
+        <div class="logo-card dark-bg">
+          <img src="logo-navy.png" alt="North Lusitanos logo — fundo escuro" />
+          <span class="logo-card-label">Versão fundo escuro</span>
+        </div>
+      </div>
+
+      <p style="margin-top:1.5rem; font-size:0.82rem; opacity:0.5; line-height:1.7;">
+        Área de protecção mínima: manter sempre uma margem de pelo menos metade da altura da sela em redor do logótipo. Não distorcer, rodar, alterar proporções nem remover elementos.
+      </p>
+    </section>
+
+    <!-- ══ 2 · CORES ═════════════════════════════════════════════════ -->
+    <section>
+      <span class="section-number">02</span>
+      <h3>Paleta de Cores</h3>
+      <p class="section-intro">Dois tons formam a identidade visual: um creme quente como pano de fundo e um azul-marinho profundo para texto e elementos gráficos.</p>
+      <div class="rule"></div>
+
+      <div class="colour-grid">
+
+        <!-- Cream -->
+        <div class="colour-card">
+          <div class="colour-swatch" style="background:#FDFFF1; border-bottom:1px solid rgba(24,42,71,.08);"></div>
+          <div class="colour-info">
+            <p class="colour-name">Ivory Field</p>
+            <p class="colour-hex">#FDFFF1</p>
+            <p class="colour-use">Cor de fundo principal. Usada em fundos de página, cartões e superfícies de destaque.</p>
+            <p class="colour-use">Transmite calma, sofisticação e elegância.</p>
+          </div>
+        </div>
+
+        <!-- Navy -->
+        <div class="colour-card">
+          <div class="colour-swatch" style="background:#182A47;"></div>
+          <div class="colour-info">
+            <p class="colour-name">Lusitano Navy</p>
+            <p class="colour-hex">#182A47</p>
+            <p class="colour-use">Cor principal de texto, contornos, ícones e fundos de destaque invertido.</p>
+            <p class="colour-use">Transmite confiança, estabilidade e profissionalismo.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══ 3 · TIPOGRAFIA ═════════════════════════════════════════════ -->
+    <section>
+      <span class="section-number">03</span>
+      <h3>Tipografia</h3>
+      <p class="section-intro">Libre Baskerville Bold é a única fonte da marca. A sua serifa humanista confere dignidade e legibilidade em todos os suportes.</p>
+      <div class="rule"></div>
+
+      <div class="type-details">
+        <div class="type-detail-card">
+          <p class="type-detail-label">Família</p>
+          <p class="type-detail-value">Libre Baskerville</p>
+          <p class="type-detail-sub">Google Fonts · Open Font License</p>
+        </div>
+        <div class="type-detail-card">
+          <p class="type-detail-label">Peso utilizado</p>
+          <p class="type-detail-value">Bold — 700</p>
+          <p class="type-detail-sub">Único peso aprovado</p>
+        </div>
+        <div class="type-detail-card">
+          <p class="type-detail-label">Alinhamento</p>
+          <p class="type-detail-value">Centrado ou Esquerda</p>
+          <p class="type-detail-sub">Evitar justificado</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ 4 · COMPOSIÇÃO ═════════════════════════════════════════════ -->
+    <section class="break-before">
+      <span class="section-number">04</span>
+      <h3>Exemplos de Composição</h3>
+      <p class="section-intro">As duas versões de composição (clara e escura) devem ser usadas de forma complementar.</p>
+      <div class="rule"></div>
+
+      <div class="comp-example">
+        <div class="comp-light">
+          <p class="comp-tagline">Selas em Segunda Mão</p>
+          <div class="comp-divider light"></div>
+          <p class="comp-brand-name">North<br>Lusitanos</p>
+          <div class="comp-divider light"></div>
+          <p class="comp-body">Selas de dressage e salto selecionadas com rigor.</p>
+        </div>
+        <div class="comp-dark">
+          <p class="comp-tagline" style="color:var(--cream);">Selas em Segunda Mão</p>
+          <div class="comp-divider dark"></div>
+          <p class="comp-brand-name" style="color:var(--cream);">North<br>Lusitanos</p>
+          <div class="comp-divider dark"></div>
+          <p class="comp-body" style="color:var(--cream);">Selas de dressage e salto selecionadas com rigor.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ 5 · MOCKUPS ══════════════════════════════════════════════ -->
+    <section>
+      <span class="section-number">05</span>
+      <h3>Mockups</h3>
+      <p class="section-intro">Exemplos de aplicação da identidade visual em diferentes suportes.</p>
+      <div class="rule"></div>
+
+      <div class="mockup-grid">
+
+        <!-- Cartão de visita frente -->
+        <div class="mockup-wrap">
+          <p class="mockup-label">Cartão de Visita — Frente</p>
+          <div class="mockup-card-front">
+            <div class="mockup-card-inner">
+              <img src="logo-navy.png" alt="North Lusitanos" style="width:120px; height:120px; object-fit:contain;" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Cartão de visita verso -->
+        <div class="mockup-wrap">
+          <p class="mockup-label">Cartão de Visita — Verso</p>
+          <div class="mockup-card-back">
+            <div class="mockup-card-inner">
+              <img src="logo.png" alt="North Lusitanos" style="width:60px; height:60px; object-fit:contain; margin-bottom:0.5rem;" />
+              <p class="mc-contact-name">Guilherme Areal</p>
+              <p class="mc-contact-line">northlusitanos@email.com</p>
+              <p class="mc-contact-line">+351 900 000 000</p>
+              <p class="mc-contact-line">@northlusitanos</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Etiqueta de produto -->
+        <div class="mockup-wrap">
+          <p class="mockup-label">Etiqueta de Produto</p>
+          <div class="mockup-tag-outer">
+            <div class="mockup-tag">
+              <div class="tag-hole"></div>
+              <img src="logo.png" alt="North Lusitanos" style="width:60px; height:60px; object-fit:contain;" />
+              <div class="tag-rule"></div>
+              <p class="tag-type">Sela de Dressage</p>
+              <p class="tag-detail">Couro · Tam. 17.5" · M/W</p>
+              <div class="tag-rule"></div>
+              <p class="tag-price">450€</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post Instagram -->
+        <div class="mockup-wrap">
+          <p class="mockup-label">Post Instagram</p>
+          <div class="mockup-instagram">
+            <div class="ig-header">
+              <img src="logo-navy.png" alt="northlusitanos" class="ig-avatar" style="object-fit:cover;" />
+              <div>
+                <p class="ig-username">northlusitanos</p>
+                <p class="ig-location">Portugal</p>
+              </div>
+            </div>
+            <div class="ig-image">
+              <div class="ig-image-inner">
+                <img src="logo-navy.png" alt="North Lusitanos" style="width:160px; height:160px; object-fit:contain; margin-bottom:0.75rem;" />
+                <p class="ig-img-eyebrow">Nova chegada</p>
+                <p class="ig-img-sub">Couro · 17.5&quot; · Estado: Excelente</p>
+              </div>
+            </div>
+            <div class="ig-caption">
+              <span class="ig-bold">northlusitanos</span> Sela de dressage em couro, tamanho 17.5", assento médio-largo. Estado excelente. <span style="opacity:.5;">#northlusitanos #dressage #sela</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Header de website -->
+        <div class="mockup-wrap mockup-wrap-full">
+          <p class="mockup-label">Cabeçalho de Website</p>
+          <div class="mockup-web-header">
+            <div class="web-topbar">
+              <img src="logo.png" alt="North Lusitanos" style="height:36px; width:36px; object-fit:contain;" />
+              <nav class="web-nav">
+                <span>Selas</span>
+                <span>Marcas</span>
+                <span>Sobre</span>
+                <span>Contacto</span>
+              </nav>
+            </div>
+            <div class="web-hero">
+              <p class="web-hero-eyebrow">Selas em Segunda Mão</p>
+              <p class="web-hero-title">Dressage &<br>Jumping Saddles</p>
+              <p class="web-hero-body">Equipamento seleccionado com rigor para o cavaleiro exigente.</p>
+              <div class="web-hero-btn">Ver Selas Disponíveis</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- /page -->
+
+  <footer>
+    North Lusitanos &nbsp;·&nbsp; Guia de Identidade Visual
+  </footer>
+
+</body>
+</html>
