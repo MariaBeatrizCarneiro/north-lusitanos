@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #182A47;
+  --color-cream: #FDFFF1;
+  --font-serif: "Libre Baskerville", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  background: #fff;
+  color: #182A47;
+  font-family: "Libre Baskerville", Georgia, serif;
+}
