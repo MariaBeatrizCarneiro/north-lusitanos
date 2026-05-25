@@ -84,7 +84,7 @@ export default function SaddleCard({ saddle }: { saddle: Saddle }) {
           <p className="text-[0.6rem] font-bold tracking-[0.2em] uppercase opacity-[.38] capitalize">{saddle.type}</p>
           <h3 className="text-[1rem] font-bold leading-[1.25]">{saddle.name}</h3>
           <div className="flex flex-wrap gap-x-4 gap-y-1">
-            <span className="text-[0.72rem] opacity-[.45]">Tam. <strong>{saddle.size.replace(/"/g, '')}"</strong></span>
+            <span className="text-[0.72rem] opacity-[.45]">Tam. <strong>{saddle.size.replace(/"/g, '')}&quot;</strong></span>
             <span className="text-[0.72rem] opacity-[.45]">{saddle.material}</span>
           </div>
           {saddle.description && (

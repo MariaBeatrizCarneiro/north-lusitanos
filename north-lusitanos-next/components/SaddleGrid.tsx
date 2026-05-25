@@ -16,14 +16,14 @@ export default function SaddleGrid({ saddles }: { saddles: Saddle[] }) {
   const toggleType = (t: SaddleType) => {
     setTypes(prev => {
       const next = new Set(prev)
-      next.has(t) ? next.delete(t) : next.add(t)
+      if (next.has(t)) { next.delete(t) } else { next.add(t) }
       return next
     })
   }
   const toggleState = (s: string) => {
     setStates(prev => {
       const next = new Set(prev)
-      next.has(s) ? next.delete(s) : next.add(s)
+      if (next.has(s)) { next.delete(s) } else { next.add(s) }
       return next
     })
   }

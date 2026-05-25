@@ -73,16 +73,7 @@ export default function AdminPage() {
     }
   }
 
-  async function toggleSold(saddle: Saddle) {
-    const res = await fetch(`/api/saddles/${saddle.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sold: !saddle.sold }),
-    })
-    if (res.ok) {
-      loadSaddles()
-    }
-  }
+
 
   async function handleLogout() {
     await fetch('/api/admin/logout', { method: 'POST' })
@@ -175,7 +166,7 @@ export default function AdminPage() {
                           <span className="text-[0.55rem] font-bold tracking-[0.15em] uppercase bg-[#182A47]/10 text-[#182A47] px-2 py-[2px] rounded-sm">Vendida</span>
                         )}
                       </div>
-                      <p className="text-[0.75rem] opacity-45 mt-[2px] capitalize">{saddle.type} · {saddle.size.replace(/"/g, '')}" · {saddle.price}€</p>
+                      <p className="text-[0.75rem] opacity-45 mt-[2px] capitalize">{saddle.type} · {saddle.size.replace(/"/g, '')}&quot; · {saddle.price}€</p>
                     </div>
 
                     {/* Acções */}
