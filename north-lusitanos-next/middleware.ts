@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 
 const COOKIE_NAME = 'nl_admin_auth'
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Protege todas as rotas /admin excepto /admin/login
